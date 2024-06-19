@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+  <title th:text="${title} ?: 'Danh sach nhan vien'">Danh sách nhan vien</title>
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<section layout:fragment="content">
+  <h1>Nhan Vien List</h1>
+  <table class="table table-bordered table-hover">
+    <thead class="table-dark">
+    <tr>
+      <th>ID</th>
+      <th>Mã Nhân viên</th>
+      <th>Tên nhân viên</th>
+      <th>Giới tính</th>
+      <th>Nơi sinh</th>
+      <th>Lương</th>
+      <th>Phòng Ban</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="nhanvien : ${nhanvien}">
+      <td th:text="${nhanvien.id}"></td>
+      <td th:text="${nhanvien.MaNv}"></td>
+      <td th:text="${nhanvien.TenNv}"></td>
+      <td> <img th:src="${nhanvien.phai == 'NAM' ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0y9H6z8Hml-I9nMlkbMfqamX6n9yosKh_RA&s' : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSogN4Xj7tPo67WqwojlFTqEZFhMaxGCrT29g&s'}" alt="Gender Icon" style="width: 30px; height: 30px;"></td>
+      <td th:text="${nhanvien.NoiSinh}"></td>
+      <td th:text="${nhanvien.Luong}"></td>
+      <td th:text="${nhanvien.phongBan.TenPhong}"></td>
+      <td>
+        <div sec:authorize="hasAuthority('ADMIN')">
+        <a th:href="@{/nhanvien/edit/{id}(id=${nhanvien.id})}"
+           class="btn btn-success btn-sm">Sửa</a>
+        <a th:href="@{/nhanvien/delete/{id}(id=${nhanvien.id})}"
+           class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc không?')">Xóa</a>
+        </div>
+      </td>
+
+    </tr>
+    </tbody>
+  </table>
+</section>
+</body>
+</html>
